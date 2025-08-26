@@ -1,0 +1,411 @@
+/* ======= Body and Background ======= */
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  /* general text */
+  background: linear-gradient(135deg, #2233cc, #5544cc, #8933cc);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  overflow-x: hidden;
+  /* prevent horizontal scroll */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 0;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.1) 2px, transparent 3px) 20px 30px,
+    radial-gradient(circle, rgba(255, 255, 255, 0.1) 1.5px, transparent 2px) 50px 70px,
+    radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 2px) 80px 120px;
+  background-repeat: repeat;
+  background-size: 100px 100px;
+  animation: floatDots 20s linear infinite;
+  z-index: 0;
+}
+
+@keyframes floatDots {
+  0% {
+    background-position: 20px 30px, 50px 70px, 80px 120px;
+  }
+
+  100% {
+    background-position: 120px 130px, 150px 170px, 180px 220px;
+  }
+}
+
+/* ======= Menu Bar and Logo ======= */
+#menu-bar {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  background: rgba(48, 145, 241, 0.9);
+  padding: 10px 18px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  z-index: 10000;
+  color: white;
+  max-width: 95vw;
+  width: auto;
+}
+
+#menu-bar img {
+  height: 40px;
+  cursor: pointer;
+  margin-right: 10px;
+  display: block;
+  transition: filter 0.3s ease;
+  filter: drop-shadow(0 0 4px white);
+}
+
+#menu-bar img:hover {
+  filter: drop-shadow(0 0 12px white);
+}
+
+#menu-bar .menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: white;
+}
+
+#menu-bar select {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.in-quiz {
+  display: none;
+}
+
+/* ======= Quiz Menu ======= */
+#quiz-menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 40px;
+  width: 90%;
+  max-width: 1000px;
+  z-index: 1;
+}
+
+.quiz-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.quiz-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.quiz-card h2 {
+  margin-bottom: 12px;
+  color: #1976d2;
+}
+
+/* ======= Quiz Container ======= */
+#quiz-container {
+  background: #f5f5f5;
+  padding: 20px 30px;
+  /* Reduced padding */
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  width: 450px;
+  max-width: 95vw;
+  text-align: center;
+  display: none;
+  /* hidden by default */
+  flex-direction: column;
+  gap: 15px;
+  /* Reduced gap */
+  position: relative;
+  z-index: 10;
+  margin: 10px 0;
+  /* Reduced margin */
+}
+
+#question-card {
+  background-color: #f5f5f5;
+  padding: 20px 25px;
+  /* Reduced padding */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  font-size: 1.3rem;
+  font-family: 'Roboto', sans-serif;
+  /* Roboto for question */
+  font-weight: 700;
+  /* bold */
+  color: #333333;
+  /* dark grey text */
+  min-height: 100px;
+  /* Reduced min-height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 10px;
+  /* Reduced margin */
+}
+
+#counter {
+  margin-top: 5px;
+  /* Reduced margin */
+  margin-bottom: 5px;
+  /* Reduced margin */
+  font-weight: 600;
+  color: #555;
+  font-size: 1rem;
+  user-select: none;
+  text-align: center;
+}
+
+#answers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* Reduced gap */
+}
+
+#answers button {
+  background-color: #2979ff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  /* Reduced padding */
+  font-size: 1.1rem;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(41, 121, 255, 0.6), 0 0 10px rgba(41, 121, 255, 0.4);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  font-family: Arial, sans-serif;
+  /* answers keep Arial */
+  position: relative;
+  /* for the highlight effect */
+  overflow: hidden;
+  /* to contain the highlight effect */
+}
+
+#answers button:hover:not(:disabled) {
+  background-color: #0059c1;
+  transform: translateY(-2px);
+  /* lift the button slightly */
+  box-shadow: 0 6px 12px rgba(41, 121, 255, 0.7), 0 0 15px rgba(41, 121, 255, 0.5);
+}
+
+#answers button:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+#answers button.correct {
+  background-color: #4caf50 !important;
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.6), 0 0 10px rgba(76, 175, 80, 0.4);
+}
+
+#answers button.wrong {
+  background-color: #f44336 !important;
+  box-shadow: 0 4px 8px rgba(244, 67, 54, 0.6), 0 0 10px rgba(244, 67, 54, 0.4);
+}
+
+#feedback {
+  font-size: 1.2rem;
+  font-weight: 600;
+  min-height: 40px;
+  color: #646464;
+  user-select: none;
+  margin-top: 10px;
+  /* Reduced margin */
+}
+
+#controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  position: relative;
+  /* important for absolute positioning of icons */
+  padding-bottom: 80px;
+  /* Reduced padding */
+  overflow: visible;
+  /* prevent clipping of result icon */
+}
+
+#controls button {
+  padding: 10px 25px;
+  /* Reduced padding */
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  background-color: #1976d2;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.7), 0 0 15px rgba(25, 118, 210, 0.5);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  font-family: Arial, sans-serif;
+  position: relative;
+  /* for the highlight effect */
+  overflow: hidden;
+  /* to contain the highlight effect */
+}
+
+#controls button:active:not(:disabled) {
+  transform: scale(0.97);
+  transition: transform 0.1s;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.6), 0 0 10px rgba(25, 118, 210, 0.4);
+}
+
+#controls button:hover:not(:disabled) {
+  background-color: #0059c1;
+  transform: translateY(-2px);
+  /* lift the button slightly */
+  box-shadow: 0 6px 15px rgba(25, 118, 210, 0.7), 0 0 20px rgba(25, 118, 210, 0.5);
+}
+
+.result-icon {
+  position: absolute;
+  bottom: -50px;
+  /* Moved down by 20px */
+  left: -20px;
+  /* Moved left by 20px */
+  width: 100px;
+  /* Increased size */
+  height: 100px;
+  /* Increased size */
+  z-index: 10;
+  animation: pop 0.3s ease;
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
+  /* subtle shadow */
+  border-radius: 50%;
+  /* circular icon */
+  object-fit: contain;
+  /* keeps image crisp and maintains aspect ratio */
+  image-rendering: auto;
+  /* reset to default */
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+#progress-bar-container {
+  height: 10px;
+  background-color: #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  position: relative;
+  width: 100%;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #1976d2;
+  transition: width 0.3s ease;
+}
+
+/* ======= Responsive Styles for Phones ======= */
+@media (max-width: 600px) {
+  body {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  #menu-bar {
+    flex-wrap: wrap;
+    padding: 8px 12px;
+    gap: 10px;
+    font-size: 0.85rem;
+    max-width: 100%;
+  }
+
+  #menu-bar img {
+    height: 32px;
+    margin-right: 5px;
+  }
+
+  #quiz-menu {
+    grid-template-columns: 1fr;
+    padding: 20px 10px;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .quiz-card {
+    padding: 15px;
+  }
+
+  #quiz-container {
+    padding: 15px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 10px;
+    box-sizing: border-box;
+  }
+
+  #question-card {
+    font-size: 1.1rem;
+    padding: 15px;
+    min-height: 80px;
+  }
+
+  #answers button {
+    font-size: 1rem;
+    padding: 10px 14px;
+  }
+
+  #controls {
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 60px;
+  }
+
+  #controls button {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .result-icon {
+    width: 70px;
+    height: 70px;
+    bottom: -35px;
+    left: -10px;
+  }
+
+  #progress-bar-container {
+    margin-bottom: 15px;
+  }
+}
